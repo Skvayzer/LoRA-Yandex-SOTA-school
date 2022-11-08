@@ -121,6 +121,7 @@ class DataTrainingArguments:
     validation_file: Optional[str] = field(
         default=None, metadata={"help": "A csv or a json file containing the validation data."}
     )
+
     test_file: Optional[str] = field(default=None, metadata={"help": "A csv or a json file containing the test data."})
 
     def __post_init__(self):
@@ -218,6 +219,10 @@ class ModelArguments:
         metadata={"help": "Token Masking Probability"},
     )
 
+    report_to: Optional["list"] = field(
+        default=["wandb"],
+        metadata={"help": "Token Masking Probability"},
+    )
     
 def main():
     # See all possible arguments in src/transformers/training_args.py
