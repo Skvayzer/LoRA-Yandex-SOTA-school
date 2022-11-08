@@ -221,7 +221,7 @@ class ModelArguments:
 
     report_to: Optional[str] = field(
         default="wandb",
-        metadata={"help": "Token Masking Probability"},
+        metadata={"help": "Logs to Wandb"},
     )
     
 def main():
