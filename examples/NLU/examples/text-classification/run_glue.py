@@ -219,8 +219,8 @@ class ModelArguments:
         metadata={"help": "Token Masking Probability"},
     )
 
-    report_to: Optional[list] = field(
-        default=["wandb"],
+    report_to: Optional[str] = field(
+        default="wandb",
         metadata={"help": "Token Masking Probability"},
     )
     
