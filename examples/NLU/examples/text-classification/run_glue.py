@@ -219,10 +219,10 @@ class ModelArguments:
         metadata={"help": "Token Masking Probability"},
     )
 
-    report_to: Optional[str] = field(
-        default="wandb",
-        metadata={"help": "Logs to Wandb"},
-    )
+    # report_to: Optional[str] = field(
+    #     default="wandb",
+    #     metadata={"help": "Logs to Wandb"},
+    # )
     
 def main():
     # See all possible arguments in src/transformers/training_args.py
