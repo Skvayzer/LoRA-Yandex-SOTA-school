@@ -219,7 +219,10 @@ class ModelArguments:
         default=0.0,
         metadata={"help": "Token Masking Probability"},
     )
-
+    use_deterministic_algorithms: Optional[bool] = field(
+        default=True,
+        metadata={"help": "Whether to use_deterministic_algorithms or not."},
+    )
     # report_to: Optional[str] = field(
     #     default="wandb",
     #     metadata={"help": "Logs to Wandb"},
