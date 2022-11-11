@@ -5,3 +5,4 @@ spacy
 tqdm
 tensorboard
 progress
+bitsandbytes

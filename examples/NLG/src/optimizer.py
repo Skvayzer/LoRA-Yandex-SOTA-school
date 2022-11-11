@@ -7,6 +7,7 @@ import math
 import os
 from collections import OrderedDict 
 import argparse
+import bitsandbytes as bnb
 
 import torch
 from torch import nn
@@ -323,6 +324,21 @@ def create_adam_optimizer_from_args(model, args, grouped_parameters=None):
         betas=(args.adam_beta1, args.adam_beta2), 
         eps=args.adam_epislon, 
         weight_decay=args.weight_decay, 
+        correct_bias=args.correct_bias
+    )
+    return optimizer
+
+
+def create_adam8bit_optimizer_from_args(model, args, grouped_parameters=None):
+    if grouped_parameters is None:
+        grouped_parameters = create_grouped_parameters(model, args.no_decay_bias)
+
+    optimizer = bnb.optim.Adam8bit(
+        grouped_parameters, 
+        betas=(args.adam_beta1, args.adam_beta2),
+        eps=args.adam_epislon,
+        lr=args.lr, 
+        weight_decay=args.weight_decay,
         correct_bias=args.correct_bias
     )
     return optimizer

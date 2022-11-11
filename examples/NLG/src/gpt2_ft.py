@@ -26,7 +26,8 @@ from optimizer import (
     create_adam_optimizer, 
     create_optimizer_scheduler, 
     add_optimizer_params, 
-    create_adam_optimizer_from_args
+    create_adam_optimizer_from_args,
+    create_adam8bit_optimizer_from_args
 )
 
 from data_utils import FT_Dataset
@@ -331,7 +332,8 @@ if __name__ == '__main__':
 
     if args.lora_dim > 0:
         lora.mark_only_lora_as_trainable(lm_net)
-    optimizer = create_adam_optimizer_from_args(lm_net, args)
+    # optimizer = create_adam_optimizer_from_args(lm_net, args)
+    optimizer = create_adam8bit_optimizer_from_args(lm_net, args)
 
     if args.max_step is None:
         args.max_step = (args.max_epoch * train_data.num_batches + args.world_size - 1) // args.world_size
