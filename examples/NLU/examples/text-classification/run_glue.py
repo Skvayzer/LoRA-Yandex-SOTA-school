@@ -37,6 +37,7 @@ from transformers import (
     HfArgumentParser,
     PretrainedConfig,
     Trainer,
+    EarlyStoppingCallback,
     TrainingArguments,
     default_data_collator,
     set_seed,
@@ -223,7 +224,7 @@ class ModelArguments:
     #     default="wandb",
     #     metadata={"help": "Logs to Wandb"},
     # )
-    
+
 def main():
     # See all possible arguments in src/transformers/training_args.py
     # or by passing the --help flag to this script.
@@ -547,6 +548,7 @@ def main():
         compute_metrics=compute_metrics,
         tokenizer=tokenizer,
         data_collator=data_collator,
+        callbacks = [EarlyStoppingCallback(early_stopping_patience=3)]
     )
 
     # Training
