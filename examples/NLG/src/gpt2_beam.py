@@ -17,7 +17,7 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 torch.set_printoptions(threshold=100000)
-
+import wandb
 import numpy as np
 
 from gpu import (
@@ -34,7 +34,7 @@ from exp_utils import create_exp_dir
 from data_utils import FT_Dataset 
 from model import GPT2Config, GPT2LMModel
 
-
+wandb.init(project="LoRA-GPT-2", entity="lora_yandex_sota")
 parser = argparse.ArgumentParser(description='PyTorch GPT2 beam decoding')
 
 add_gpu_params(parser)
@@ -336,6 +336,7 @@ def beam(model, data_iter, args):
 
                 if idx % 10 == 0:
                     print('inference samples', idx)
+                    wandb.log({"inf samples": idx})
 
     if args.rank == 0:
         pred_file = os.path.join(args.work_dir, args.output_file) 

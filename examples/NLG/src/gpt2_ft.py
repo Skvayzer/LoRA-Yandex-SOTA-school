@@ -8,7 +8,7 @@ import math
 import os, sys
 import numpy as np
 import itertools
-
+import wandb
 import torch
 import random
 from torch.utils.data import DataLoader
@@ -34,6 +34,7 @@ from model import GPT2Config, GPT2LMModel
 from exp_utils import create_exp_dir
 
 import loralib as lora
+wandb.init(project="LoRA-GPT-2", entity="lora_yandex_sota")
 
 parser = argparse.ArgumentParser(description='PyTorch GPT2 ft script')
 
@@ -95,7 +96,7 @@ def print_args(args):
     if args.rank == 0:
         print('=' * 100)
         for k, v in args.__dict__.items():
-            print(f'        - {k} : {v}')
+            print(f' - {k} : {v}')
         print('=' * 100)
 
 
@@ -216,15 +217,17 @@ def train_validate(
 
             if args.rank == 0: 
                 print(log_str)
+                wandb.log({'lm_loss': avg_lm_loss.val, 'lm_ppl': math.exp(avg_lm_loss.avg)})
+
             log_start_time = time.time()
             avg_lm_loss.reset()
         
-        if train_step % args.save_interval == 0: 
-            if args.rank == 0:
-                model_path = os.path.join(args.work_dir, f'model.{train_step}.pt')
-                print('saving checkpoint', model_path)
-                torch.save({'model_state_dict': lora.lora_state_dict(model)}, model_path)
-            distributed_sync(args)
+#         if train_step % args.save_interval == 0: 
+#             if args.rank == 0:
+#                 model_path = os.path.join(args.work_dir, f'model.{train_step}.pt')
+#                 print('saving checkpoint', model_path)
+#                 torch.save({'model_state_dict': lora.lora_state_dict(model)}, model_path)
+#             distributed_sync(args)
 
         # evaluation interval
         if train_step % args.eval_interval == 0:
@@ -243,15 +246,16 @@ def train_validate(
                 print('-' * 100)
                 print(log_str)
                 print('-' * 100)
+                wandb.log({'valid_loss': valid_loss, 'valid_ppl': valid_ppl})
 
             model.train()
             distributed_sync(args)
 
         if train_step == args.max_step:
             break
-
+    # Saving best checkpoint overwriting previuos best checkpoint
     if args.rank == 0:
-        model_path = os.path.join(args.work_dir, f'model.{train_step}.pt')
+        model_path = os.path.join(args.work_dir, f'model.checkpoint.pt')
         print('saving checkpoint', model_path)
         torch.save({'model_state_dict': model.state_dict()}, model_path) 
     distributed_sync(args)
