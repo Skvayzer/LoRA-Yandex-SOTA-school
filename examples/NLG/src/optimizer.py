@@ -338,8 +338,7 @@ def create_adam8bit_optimizer_from_args(model, args, grouped_parameters=None):
         betas=(args.adam_beta1, args.adam_beta2),
         eps=args.adam_epislon,
         lr=args.lr, 
-        weight_decay=args.weight_decay,
-        correct_bias=args.correct_bias
+        weight_decay=args.weight_decay
     )
     return optimizer
 
