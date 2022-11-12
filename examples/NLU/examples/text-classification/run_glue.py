@@ -219,10 +219,10 @@ class ModelArguments:
         default=0.0,
         metadata={"help": "Token Masking Probability"},
     )
-    use_deterministic_algorithms: Optional[bool] = field(
-        default=True,
-        metadata={"help": "Whether to use_deterministic_algorithms or not."},
-    )
+    # use_deterministic_algorithms: Optional[bool] = field(
+    #     default=True,
+    #     metadata={"help": "Whether to use_deterministic_algorithms or not."},
+    # )
     # report_to: Optional[str] = field(
     #     default="wandb",
     #     metadata={"help": "Logs to Wandb"},
@@ -241,7 +241,7 @@ def main():
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
 
-    torch.use_deterministic_algorithms(True)
+    torch.use_deterministic_algorithms(training_args.use_deterministic_algorithms)
     logger.info("use_deterministic_algorithms: " + str(torch.are_deterministic_algorithms_enabled()))
 
     # Detecting last checkpoint.
