@@ -388,8 +388,8 @@ if __name__ == '__main__':
         cp = torch.load(args.init_checkpoint, map_location=torch.device('cpu'))
         if args.lora_checkpoint is not None:
             cp_lora = collections.OrderedDict(torch.load(args.lora_checkpoint, map_location=torch.device('cpu')))
-            weights = cp.update(cp_lora)
-            lm_net.load_weight(weights)
+            cp.update(cp_lora)
+            lm_net.load_weight(cp)
         else:
             lm_net.load_weight(cp)
     lm_net = lm_net.cuda()
