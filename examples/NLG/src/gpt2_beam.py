@@ -59,6 +59,8 @@ parser.add_argument('--model_card', default='gpt2.sm', choices=['gpt2.sm', 'gpt2
 
 parser.add_argument('--init_checkpoint', default=None, type=str, help='initial checkpoint')
 
+parser.add_argument('--lora_checkpoint', default=None, type=str, help='initial checkpoint with only lora weights')
+
 parser.add_argument('--lora_dim', type=int, default=0, help='lora attn dimension')
 
 parser.add_argument('--lora_alpha', type=int, default=128, help='lora attn alpha')
@@ -383,7 +385,12 @@ if __name__ == '__main__':
     if args.init_checkpoint is not None:
         print('loading model pretrained weight.')
         cp = torch.load(args.init_checkpoint, map_location=torch.device('cpu'))
-        lm_net.load_weight(cp)    
+        if args.lora_checkpoint is not None:
+            cp_lora = torch.load(args.lora_checkpoint, map_location=torch.device('cpu'))
+            weights = cp.update(cp_lora)
+            lm_net.load_weight(weights)
+        else:
+            lm_net.load_weight(cp)
     lm_net = lm_net.cuda()
 
     print('model sampling ...')
