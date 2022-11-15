@@ -59,8 +59,8 @@ def compute_bleu(references, hypothesis):
     print('Computing BLEU...')
     bleu = evaluate.load('bleu')
     result =  bleu.compute(predictions=hypothesis, references=references)
-    print(f'BLEU computed: {result["bleu"]}')
-    return result['bleu']
+    print(f'BLEU computed: {result["bleu"] * 100}')
+    return result['bleu'] * 100
 
 def compute_bleurt(references, hypothesis):
     print('Computing BLEURT...')
@@ -73,8 +73,8 @@ def compute_meteor(references, hypothesis):
     print('Computing METEOR...')
     meteor = evaluate.load('meteor')
     result = meteor.compute(predictions=hypothesis, references=references)
-    print(f'METEOR computed: {result["meteor"]}')
-    return result['meteor']
+    print(f'METEOR computed: {result["meteor"] * 100}')
+    return result['meteor'] * 100
 
 def compute_ter(references, hypothesis):
     print('Computing TER...')
