@@ -59,28 +59,28 @@ def compute_bleu(references, hypothesis):
     print('Computing BLEU...')
     bleu = evaluate.load('bleu')
     result =  bleu.compute(predictions=hypothesis, references=references)
-    print('BLEU computed')
+    print(f'BLEU computed: {result["bleu"]}')
     return result['bleu']
 
 def compute_bleurt(references, hypothesis):
     print('Computing BLEURT...')
     bleurt = evaluate.load('bleurt')
     result = bleurt.compute(predictions=hypothesis, references=references)
-    print('BLEURT computed')
+    print(f'BLEURT computed: {result}')
     return result
 
 def compute_meteor(references, hypothesis):
     print('Computing METEOR...')
     meteor = evaluate.load('meteor')
     result = meteor.compute(predictions=hypothesis, references=references)
-    print('METEOR computed')
+    print(f'METEOR computed: {result["meteor"]}')
     return result['meteor']
 
 def compute_ter(references, hypothesis):
     print('Computing TER...')
     ter = evaluate.load('ter')
     result = ter.compute(predictions=hypothesis, references=references)
-    print('TER computed')
+    print(f'TER computed: {result["score"]}')
     return result['score']
 
 def run(refs_path, hyps_path, num_refs, metrics='bleu,meteor,ter,bleurt'):
