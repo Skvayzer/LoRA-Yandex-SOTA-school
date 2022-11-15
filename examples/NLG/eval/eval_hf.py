@@ -5,7 +5,7 @@ Author: Vladimir Makharev
 Date: 14/11/2022
 Description:
     This script aims to evaluate the output of data-to-text NLG models by 
-    computing popular automatic metrics such as BLEU, BLEURT, METEOR, TER.
+    computing popular automatic metrics such as BLEU, METEOR, TER.
     
     ARGS:
         usage: eval.py [-h] -R REFERENCE -H HYPOTHESIS [-nr NUM_REFS]
@@ -25,7 +25,7 @@ Description:
                                 evaluation metrics to be computed
 
     EXAMPLE:
-        python3 eval.py -R data/en/references/reference -H data/en/hypothesis -nr 6 -m bleu,meteor,ter,bluert
+        python3 eval.py -R data/en/references/reference -H data/en/hypothesis -nr 6 -m bleu,meteor,ter
 """
 
 import argparse
@@ -62,13 +62,6 @@ def compute_bleu(references, hypothesis):
     print(f'BLEU computed: {result["bleu"] * 100}')
     return result['bleu'] * 100
 
-def compute_bleurt(references, hypothesis):
-    print('Computing BLEURT...')
-    bleurt = evaluate.load('bleurt')
-    result = bleurt.compute(predictions=hypothesis, references=references)
-    print(f'BLEURT computed: {result}')
-    return result
-
 def compute_meteor(references, hypothesis):
     print('Computing METEOR...')
     meteor = evaluate.load('meteor')
@@ -83,7 +76,7 @@ def compute_ter(references, hypothesis):
     print(f'TER computed: {result["score"]}')
     return result['score']
 
-def run(refs_path, hyps_path, num_refs, metrics='bleu,meteor,ter,bleurt'):
+def run(refs_path, hyps_path, num_refs, metrics='bleu,meteor,ter'):
     metrics = args.metrics.lower().split(',')
     references, hypothesis = parse(refs_path, hyps_path, num_refs)
     
@@ -92,8 +85,6 @@ def run(refs_path, hyps_path, num_refs, metrics='bleu,meteor,ter,bleurt'):
     print('Evaluation started...')
     if 'bleu' in metrics:
         result['bleu'] = compute_bleu(references, hypothesis)
-    if 'bleurt' in metrics:
-        result['bleurt'] = compute_bleurt(references, hypothesis)
     if 'meteor' in metrics:
         result['meteor'] = compute_meteor(references, hypothesis)
     if 'ter' in metrics:
@@ -107,7 +98,7 @@ if __name__ == '__main__':
     arg_parser.add_argument("-R", "--reference", help="reference translation", required=True)
     arg_parser.add_argument("-H", "--hypothesis", help="hypothesis translation", required=True)
     arg_parser.add_argument("-nr", "--num_refs", help="number of references", type=int, default=4)
-    arg_parser.add_argument("-m", "--metrics", help="evaluation metrics to be computed", default='bleu,meteor,ter,bleurt')
+    arg_parser.add_argument("-m", "--metrics", help="evaluation metrics to be computed", default='bleu,meteor,ter')
 
     args = arg_parser.parse_args()
 
