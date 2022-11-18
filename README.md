@@ -48,6 +48,9 @@ On GPT-2, LoRA compares favorably to both full finetuning and other efficient tu
 Non-LoRA baselines, except for adapter on GPT-2 large, are taken from [Li and Liang (2021)](https://arxiv.org/abs/2101.00190). We include confidence intervals on results from our experiments.
 
 Download the GPT-2 LoRA checkpoints:
+ * [GPT-2 Small E2E](https://github.com/Skvayzer/LoRA-Yandex-SOTA-school/releases/download/GPT2-Small_LoRA_checkpoints/gpt2-sm.e2e.lora.checkpoint.pt) (0.5 MB)
+ * [GPT-2 Small DART](https://github.com/Skvayzer/LoRA-Yandex-SOTA-school/releases/download/GPT2-Small_LoRA_checkpoints/gpt2-sm.dart.lora.checkpoint.pt) (0.5 MB)
+ * [GPT-2 Small WebNLG](https://github.com/Skvayzer/LoRA-Yandex-SOTA-school/releases/download/GPT2-Small_LoRA_checkpoints/gpt2-sm.webnlg.lora.checkpoint.pt) (0.5 MB)
  * [GPT-2 Medium E2E](https://github.com/microsoft/LoRA/releases/download/GPT-2/gpt2_md_lora_e2e.pt) (1.5 MB)
  * [GPT-2 Medium DART](https://github.com/microsoft/LoRA/releases/download/GPT-2/gpt2_md_lora_dart.pt) (1.5 MB)
  * [GPT-2 Medium WebNLG](https://github.com/microsoft/LoRA/releases/download/GPT-2/gpt2_md_lora_webnlg.pt) (1.5 MB)
